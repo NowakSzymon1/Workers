@@ -28,12 +28,14 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="menuNav">
             <a class="navbar-brand" href="#" onclick="openNav()">Menu</a>
+            <a class="navbar-brand" href="indexWorker.html">Strona główna</a>
             <div id="mySidenav" class="sidenav">
                 <a href="#" class="closebtn" onclick="closeNav()">&times;</a>
                 <a href="#">Pracownicy</a>
                 <a href="#">Stanowiska</a>
                 <a href="#">Zespoły</a>
                 <a href="#">Wypłaty</a>
+                <a href="#">Zaliczki</a>
                 <a href="#">Pit</a>
                 <a href="#">Czas pracy</a>
                 <a href="#">Delegacje</a>
@@ -43,37 +45,66 @@
               </div>
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-        
-              
+          <ul class="navbar-nav mr-auto">              
           </ul>
         </div>
       </nav>
 
+    <div id="workers" v-cloak>
+         <h1>Pracownicy</h1>
+        <template v-if="users.length">  <!--nie działa z v-show-->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nr.</th>
+                        <th>Imię i nazwisko</th>
+                        <th>Wiek</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(worker, index) in users"> <!--:key="users.id"-->
+                        <td>{{ index + 1 }}.</td>
+                        <td>{{ worker.firstName }} {{ worker.lastName }}</td>
+                        <td>{{ worker.age }}
+                            <td>
+                                <button @click="removeWorker(index)">Usun</button>
+                            </td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-      
+            <form v-on:submit.prevent="addNewUser">
+                <p>Dodaj pracownika:</p>
+                <label>imie</label>
+                <input type="text" v-model="user.firstName">
+                <label>nazwisko</label>
+                <input type="text" v-model="user.lastName">
+                <label>wiek</label>
+                <input type="number" v-model="user.age">
+                <button type="submit">Dodaj</button>
+            </form> 
+        </template>
 
-
-
-
-
-
-
-
-
+         <div v-else>
+            <form v-on:submit.prevent="addNewUser">
+                <h2>Brak pracowników</h2>
+                <p>Dodaj pracownika:</p>
+                <label>imie</label>
+                <input type="text" v-model="users.firstName">
+                <label>nazwisko</label>
+                <input type="text" v-model="users.lastName">
+                <label>wiek</label>
+                <input type="text" v-model="users.age">
+                <button type="submit">Dodaj</button>
+            </form> 
+         </div>
+    </div>
 
       
 </body>
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js"></script>
-<script stc="worker.js"></script>
-
-<script>
-
-
-
-
-
-</script>
+<script src="worker.js"></script>
+<script src="workers.js"></script>
 </html>
