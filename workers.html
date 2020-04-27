@@ -53,6 +53,12 @@
     <div id="workers" v-cloak>
          <h1>Pracownicy</h1>
         <template v-if="users.length">  <!--nie działa z v-show-->
+            <form action="#" @submit.prevent="submnit">
+                <label>Szukaj</label>
+                <input type="text" placeholder="Podaj szukane nazwisko" v-model="searchWorker"> 
+            </form>
+
+
             <table>
                 <thead>
                     <tr>
@@ -63,7 +69,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(worker, index) in users"> <!--:key="users.id"-->
+                    <tr v-for="(worker, index) in filteredWorkers"> <!--:key="users.id"-->
                         <td>{{ index + 1 }}.</td>
                         <td>{{ worker.firstName }} {{ worker.lastName }}</td>
                         <td>{{ worker.age }}
@@ -77,29 +83,22 @@
 
             <form v-on:submit.prevent="addNewUser">
                 <p>Dodaj pracownika:</p>
-                <label>imie</label>
-                <input type="text" v-model="user.firstName">
-                <label>nazwisko</label>
-                <input type="text" v-model="user.lastName">
-                <label>wiek</label>
-                <input type="number" v-model="user.age">
+                <input type="text" v-model="user.firstName" placeholder="Imię">
+                <input type="text" v-model="user.lastName" placeholder="Nazwisko">
+                <input type="number" v-model="user.age" placeholder="Wiek">
                 <button type="submit">Dodaj</button>
             </form> 
         </template>
-
-         <div v-else>
+        <template v-else>
             <form v-on:submit.prevent="addNewUser">
                 <h2>Brak pracowników</h2>
                 <p>Dodaj pracownika:</p>
-                <label>imie</label>
-                <input type="text" v-model="users.firstName">
-                <label>nazwisko</label>
-                <input type="text" v-model="users.lastName">
-                <label>wiek</label>
-                <input type="text" v-model="users.age">
+                <input type="text" v-model="users.firstName" placeholder="Imię">
+                <input type="text" v-model="users.lastName" placeholder="Nazwisko">
+                <input type="text" v-model="users.age" placeholder="wiek">
                 <button type="submit">Dodaj</button>
             </form> 
-         </div>
+        </template>
     </div>
 
       

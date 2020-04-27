@@ -7,8 +7,14 @@ let workersManage = new Vue({
             {firstName: "Daniel", lastName: "Oleksy", age: 37},
             {firstName: "Wojtek", lastName: "Kowalski", age: 39}
         ],
-        user: {firstName:"", lastName:"", age:null}
+        user: {firstName:"", lastName:"", age:null},
+        searchWorker: ""
         
+    },
+    computed: {
+        filteredWorkers: function(){
+            return this.users.filter(iLookFor => iLookFor.lastName.toLowerCase().includes(this.searchWorker));
+        }
     },
     methods: {
         removeWorker: function(index){
