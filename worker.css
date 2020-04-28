@@ -46,3 +46,8 @@
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
   }
+
+
+  @media (min-width: 768px){
+    .navbar {border-radius: 0; }
+  }
