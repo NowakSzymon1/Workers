@@ -60,24 +60,7 @@
     </nav>
     
     <div id="workers">
-        <table v-if="users.length">
-            <thead>
-                <tr>
-                    <th>Nr.</th>
-                    <th>Imię i nazwisko</th>
-                    <th>Wiek</th>
-                    <th>Options</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr is="available-workers" v-for="(worker, index) in users" 
-                :worker="worker" 
-                :index="index"
-                @remove="removeWorker"></tr>
-            </tbody>
-        </table>
-        
-        <no-available-workers v-else></no-available-workers>
+        <workers :users="users"></workers>
 
     </div>
 

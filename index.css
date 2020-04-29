@@ -1,0 +1,16 @@
+@media (min-width: 768px){
+    .navbar {border-radius: 0; }
+}
+
+.slide-enter-active,
+.slide-leave-active {
+    transition: transform 0.3s ease-in-out;
+}
+
+.slide-enter {
+    transform: translateX(-100vw);
+}
+
+.slide-leave-to {
+    transform: translateX(100vw);
+}

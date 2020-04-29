@@ -1,20 +1,76 @@
+let Event= new Vue({
+    methods: {
+        remove: function(id){
+            this.$emit("remove", id);
+        }
+    }
+})
+
+Vue.component("workers",{
+    template:`
+    <transition name="view" mode="out-in" appear>
+        <table v-if="users.length">
+            <thead>
+                <tr>
+                    <th>Nr.</th>
+                    <th>Imię</th>
+                    <th>Edytuj</th>
+                    <th>Nazwisko</th>
+                    <th>Wiek</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                <available-workers v-for="(worker, index) in users" 
+                :worker="worker" 
+                :index="index"
+                :key="worker.id"
+                ></available-workers>
+            </tbody>
+        </table>
+        
+        <no-available-workers v-else></no-available-workers>
+    </transition>
+    `,
+    props: ["users"]
+})
+
 Vue.component("available-workers",{
     template:`
         <tr>
             <td>{{ index + 1 }}.</td>
-            <td>{{ worker.firstName }} {{ worker.lastName }}</td>
-            <td>{{ worker.age }}
+            <template v-if="editNameMode">
+                <div>
+                    <input type="text" v-model.lazy="worker.firstName">
+                </div>
+            </template>
+            <template v-else>
+                <td>{{ worker.firstName }} 
+                </td>
+            </template>
+            <td>
+                <button type="button" class="btn btn-default btn-sm" @click="editNameMode = !editNameMode">
+                    <span class="glyphicon" :class="{'glyphicon-edit': !editNameMode, 'glyphicon-check': editNameMode}"></span> 
+                </button>
+            </td>
+            <td>{{ worker.lastName }}</td>
+            <td>{{ worker.age }}</td>
             <td>
                 <button type="button" class="btn btn-default btn-sm" @click="remove(worker.id)">
                     <span class="glyphicon glyphicon-trash"></span> 
                 </button>
             </td>
-        </tr>
+        </tr>  
     `,
+    data: function(){
+        return{
+            editNameMode: false
+        }
+    },
     props: ["worker", "index"],
     methods: {
         remove: function(id){
-            this.$emit("remove", id);
+            Event.remove(id);
         }
     }
 });
@@ -48,5 +104,8 @@ let workersManage = new Vue({
             let index = _.findIndex(this.users, ["id", id]);
             this.users.splice(index, 1);
         }
+    },
+    created: function(){
+        Event.$on("remove", this.removeWorker);
     }
 });
